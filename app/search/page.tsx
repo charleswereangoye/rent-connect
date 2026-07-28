@@ -193,7 +193,8 @@ export default function SearchPage() {
           {/* Bento-like Grid System from AI Studio Data */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-lg">
             {INITIAL_PROPERTIES.map((property) => (
-              <div
+              <Link
+                href={`/property/${property.id}`}
                 key={property.id}
                 className="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-outline-variant/30 cursor-pointer"
               >
@@ -278,7 +279,7 @@ export default function SearchPage() {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
 
             {/* Placeholder for scroll indicator */}
