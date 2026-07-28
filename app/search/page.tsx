@@ -139,7 +139,7 @@ export default function SearchPage() {
             </h1>
 
             {/* Floating Pill Search Bar */}
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-[896px] mx-auto">
               <div className="bg-surface-container-lowest shadow-lg rounded-full p-xs md:p-sm flex flex-col md:flex-row items-center gap-xs border border-outline-variant">
                 {/* Neighborhood Filter */}
                 <div className="flex-1 w-full flex items-center px-lg py-xs md:py-0 border-b md:border-b-0 md:border-r border-outline-variant group cursor-pointer hover:bg-surface-container-low rounded-l-full transition-colors">
@@ -347,7 +347,7 @@ export default function SearchPage() {
             <span className="text-label-md font-label-md text-primary">
               Rent Connect
             </span>
-            <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+            <p className="font-body-sm text-body-sm text-on-surface-variant max-w-[320px]">
               © 2026 Rent Connect Kigali. Premier Housing Marketplace.
             </p>
           </div>

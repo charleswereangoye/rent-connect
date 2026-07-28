@@ -75,7 +75,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-r from-on-surface/80 to-transparent" />
           </div>
           <div className="relative z-10 w-full max-w-max-width mx-auto px-lg md:px-2xl">
-            <div className="max-w-2xl text-on-primary-container">
+            <div className="max-w-[672px] text-on-primary-container">
               <h1 className="font-h1 text-h1 md:text-[56px] leading-[1.1] mb-md text-surface-container-lowest">
                 Find your perfect home in Kigali with confidence.
               </h1>
@@ -257,7 +257,7 @@ export default function HomePage() {
               <h2 className="font-h2 text-h2 text-on-surface">
                 Experience the Seamless Journey
               </h2>
-              <p className="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto mt-sm">
+              <p className="font-body-md text-body-md text-on-surface-variant max-w-[576px] mx-auto mt-sm">
                 Whether you're looking for a home or renting out your property, we've
                 simplified every step.
               </p>
@@ -470,7 +470,7 @@ export default function HomePage() {
               <h2 className="font-h1 text-h1 text-white mb-md">
                 Ready to find your new home?
               </h2>
-              <p className="font-body-lg text-body-lg text-surface-variant mb-xl max-w-2xl mx-auto opacity-80">
+              <p className="font-body-lg text-body-lg text-surface-variant mb-xl max-w-[672px] mx-auto opacity-80">
                 Join thousands of happy residents who found their dream property
                 through Rwanda's most trusted marketplace.
               </p>

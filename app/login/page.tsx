@@ -50,7 +50,7 @@ export default function LoginPage() {
           />
           {/* Overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent z-10" />
-          <div className="relative z-20 flex flex-col justify-end p-2xl text-surface-container-lowest max-w-xl">
+          <div className="relative z-20 flex flex-col justify-end p-2xl text-surface-container-lowest max-w-[576px]">
             <div className="mb-lg">
               <span className="text-primary-fixed font-h3 text-h3 tracking-tight">
                 Rent Connect
