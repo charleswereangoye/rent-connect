@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import { CURRENT_USER } from "@/lib/data";
+
 import { useAuth } from "@/lib/AuthContext";
 
 export default function DashboardPage() {
@@ -70,7 +70,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Verification Banner */}
-      {role === "landlord" && CURRENT_USER.verified === 'pending' && (
+      {role === "landlord" && (
         <div className="w-full bg-[#D97706]/10 border-l-4 border-[#D97706] py-md px-lg flex items-center gap-md">
           <span className="material-symbols-outlined text-[#D97706]">warning</span>
           <p className="font-body-md text-body-md text-[#D97706] font-medium">
@@ -132,21 +132,25 @@ export default function DashboardPage() {
           )}
 
           <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-md">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container bg-surface-container-high flex items-center justify-center">
+              {user?.user_metadata?.avatar_url ? (
                 <img
                   className="w-full h-full object-cover"
-                  src={CURRENT_USER.avatarUrl}
-                  alt={user?.user_metadata?.full_name || CURRENT_USER.name}
+                  src={user.user_metadata.avatar_url}
+                  alt={user?.user_metadata?.full_name || "User"}
                 />
+              ) : (
+                <span className="material-symbols-outlined text-primary text-3xl">person</span>
+              )}
               </div>
               <div>
                 <h3 className="font-label-md text-label-md text-on-surface">
-                  {user?.user_metadata?.full_name || CURRENT_USER.name}
+                  {user?.user_metadata?.full_name || "New User"}
                 </h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  {CURRENT_USER.joinedDate}
+                <p className="font-body-sm text-body-sm text-on-surface-variant capitalize">
+                  {role} Account
                 </p>
-              {role === "landlord" && CURRENT_USER.verified === 'pending' && (
+              {role === "landlord" && (
                 <div className="flex items-center gap-xs mt-xs">
                   <span className="w-2 h-2 rounded-full bg-[#D97706]"></span>
                   <span className="font-label-sm text-label-sm text-[#D97706]">
