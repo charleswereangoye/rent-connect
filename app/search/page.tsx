@@ -4,10 +4,14 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { INITIAL_PROPERTIES } from "@/lib/data";
 import { useAuth } from "@/lib/AuthContext";
+import { createClient } from "@/lib/supabase/client";
 
 export default function SearchPage() {
   const { role } = useAuth();
+  const supabase = createClient();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [properties, setProperties] = useState<any[]>(INITIAL_PROPERTIES);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +19,39 @@ export default function SearchPage() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    async function fetchProperties() {
+      const { data, error } = await supabase.from('properties').select('*, landlord:profiles(*)');
+      if (data && data.length > 0) {
+        const mapped = data.map((p: any) => ({
+          id: p.id,
+          title: p.title,
+          location: p.location,
+          neighborhood: p.neighborhood,
+          price: p.price,
+          priceUSD: p.price_usd,
+          beds: p.beds,
+          baths: p.baths,
+          size: p.size_sqm,
+          imageUrl: p.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image',
+          galleryImages: p.gallery_images,
+          verified: p.verified,
+          amenities: p.amenities,
+          description: p.description,
+          agent: {
+            name: p.landlord?.full_name || "Unknown Landlord",
+            role: p.landlord?.role === 'landlord' ? 'Verified Landlord' : 'Partner',
+            experience: 'New',
+            imageUrl: p.landlord?.avatar_url || 'https://via.placeholder.com/150'
+          }
+        }));
+        setProperties(mapped);
+      }
+      setIsLoading(false);
+    }
+    fetchProperties();
   }, []);
 
   // Helper to format price like 1200000 -> 1.2M, 850000 -> 850K
@@ -194,12 +231,17 @@ export default function SearchPage() {
             </div>
           </div>
 
-          {/* Bento-like Grid System from AI Studio Data */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-lg">
-            {INITIAL_PROPERTIES.map((property) => (
-              <Link
-                href={`/property/${property.id}`}
-                key={property.id}
+          {/* Bento-like Grid System */}
+          {isLoading ? (
+            <div className="w-full flex justify-center py-2xl text-primary">
+              <span className="material-symbols-outlined animate-spin text-4xl">refresh</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-lg">
+              {properties.map((property) => (
+                <Link
+                  href={`/property/${property.id}`}
+                  key={property.id}
                 className="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-outline-variant/30 cursor-pointer"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -294,6 +336,7 @@ export default function SearchPage() {
               </p>
             </div>
           </div>
+          )}
         </section>
       </main>
 

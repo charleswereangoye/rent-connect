@@ -1,19 +1,71 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 import { INITIAL_PROPERTIES } from "@/lib/data";
+import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function PropertyDetailsPage() {
   const params = useParams();
   const id = params.id as string;
-  const property = INITIAL_PROPERTIES.find((p) => p.id === id);
+  const { role } = useAuth();
+  const supabase = createClient();
+  const [property, setProperty] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
+  useEffect(() => {
+    async function fetchProperty() {
+      // Check if it's a UUID to query Supabase, else mock data
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+      
+      if (isUUID) {
+        const { data, error } = await supabase.from('properties').select('*, landlord:profiles(*)').eq('id', id).single();
+        if (data) {
+          setProperty({
+            id: data.id,
+            title: data.title,
+            location: data.location,
+            neighborhood: data.neighborhood,
+            price: data.price,
+            priceUSD: data.price_usd,
+            beds: data.beds,
+            baths: data.baths,
+            size: data.size_sqm,
+            imageUrl: data.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image',
+            galleryImages: data.gallery_images?.length > 0 ? data.gallery_images : [data.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image'],
+            verified: data.verified,
+            amenities: data.amenities,
+            description: data.description,
+            agent: {
+              name: data.landlord?.full_name || "Unknown Landlord",
+              role: data.landlord?.role === 'landlord' ? 'Verified Landlord' : 'Partner',
+              experience: 'New',
+              imageUrl: data.landlord?.avatar_url || 'https://via.placeholder.com/150'
+            }
+          });
+        }
+      } else {
+        setProperty(INITIAL_PROPERTIES.find((p) => p.id === id) || null);
+      }
+      setIsLoading(false);
+    }
+    fetchProperty();
+  }, [id]);
+
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
-  if (!property) {
+  if (!isLoading && !property) {
     return notFound();
+  }
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center text-primary">
+        <span className="material-symbols-outlined animate-spin text-4xl">refresh</span>
+      </div>
+    );
   }
 
   const formatPrice = (price: number) => {
@@ -55,14 +107,16 @@ export default function PropertyDetailsPage() {
             Dashboard
           </Link>
         </nav>
-        <div className="flex items-center gap-md">
-          <button className="bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary-container transition-all shadow-md">
-            Post a Listing
-          </button>
-          <button className="md:hidden flex items-center justify-center p-xs">
-            <span className="material-symbols-outlined text-primary">menu</span>
-          </button>
+        <div className="hidden md:flex items-center gap-md">
+          {role === "landlord" && (
+            <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-opacity-90 transition-all active:opacity-80">
+              Post a Listing
+            </button>
+          )}
         </div>
+        <button className="md:hidden text-primary flex items-center justify-center p-xs">
+            <span className="material-symbols-outlined text-primary">menu</span>
+        </button>
       </header>
 
       <main className="max-w-max-width mx-auto px-lg md:px-2xl py-xl flex-1 w-full">
@@ -153,7 +207,7 @@ export default function PropertyDetailsPage() {
             <section className="space-y-md">
               <h2 className="font-h3 text-h3 text-on-surface">Amenities</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-md">
-                {property.amenities.map((amenity, idx) => (
+                {property.amenities.map((amenity: string, idx: number) => (
                   <div key={idx} className="flex items-center gap-md p-md bg-surface-container-low rounded-xl border border-outline-variant/30">
                     <span className="material-symbols-outlined text-primary">
                       {amenity.toLowerCase().includes('wifi') ? 'wifi' 
