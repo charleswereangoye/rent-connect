@@ -222,7 +222,7 @@ export default function LoginPage() {
             </span>
             <span className="text-outline mx-sm">|</span>
             <span className="text-on-surface-variant font-body-sm text-body-sm">
-              © 2024 Rent Connect Kigali. Premier Housing Marketplace.
+              © 2026 Rent Connect Kigali. Premier Housing Marketplace.
             </span>
           </div>
           <nav className="flex flex-wrap justify-center gap-lg">
