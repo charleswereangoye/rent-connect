@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { INITIAL_CHATS, Chat } from "@/lib/data";
+import { INITIAL_CHATS } from "@/lib/data";
+import { Chat } from "@/lib/types";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function MessagesPage() {
@@ -205,8 +206,8 @@ export default function MessagesPage() {
             {/* Messages Area */}
             <div className="flex-grow p-lg overflow-y-auto flex flex-col gap-lg bg-surface-bright" style={{ scrollbarWidth: 'thin' }}>
               {activeChat.messages.map((message, index) => {
-                const isRenter = message.sender === "renter";
-                const isLandlord = message.sender === "landlord";
+                const isOwnMessage = message.sender === role;
+                const isOtherPerson = !isOwnMessage;
                 // Show date separator before the first message if it starts with "Yesterday" or "Today"
                 const showSeparator = index === 0 || (index > 0 && activeChat.messages[index-1].timestamp.split(",")[0] !== message.timestamp.split(",")[0]);
 
@@ -220,8 +221,8 @@ export default function MessagesPage() {
                       </div>
                     )}
                     
-                    {isLandlord ? (
-                      // Landlord Message (Slate Blue Theme)
+                    {isOtherPerson ? (
+                      // Other Person Message (Slate Blue Theme)
                       <div className="flex gap-md max-w-[80%]">
                         <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-auto">
                           <img
@@ -259,7 +260,7 @@ export default function MessagesPage() {
                         </div>
                       </div>
                     ) : (
-                      // Renter Message (Teal Theme)
+                      // Own Message (Teal Theme)
                       <div className="flex flex-row-reverse gap-md max-w-[80%] ml-auto">
                         <div className="flex flex-col gap-xs items-end">
                           <div className="bg-primary text-white p-lg rounded-2xl rounded-br-none shadow-sm">

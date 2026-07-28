@@ -84,54 +84,55 @@ export default function DashboardPage() {
         <section className="lg:col-span-1 space-y-lg">
           {role === "landlord" && (
             <div className="bg-white/70 backdrop-blur-md border border-white/30 p-xl rounded-xl shadow-sm space-y-md">
-            <h2 className="font-h3 text-h3 text-primary">Identity Verification</h2>
-            <p className="font-body-sm text-body-sm text-on-surface-variant">
-              To maintain a secure marketplace in Kigali, we require all landlords to
-              verify their identity using a valid Rwanda National ID.
-            </p>
-            <div
-              className={`rounded-xl p-2xl flex flex-col items-center justify-center gap-sm cursor-pointer transition-colors group ${
-                isDragging ? "bg-primary-container/10 border-primary" : "hover:bg-surface-container"
-              }`}
-              style={{
-                backgroundImage:
-                  "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%2300685FFF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e\")",
-              }}
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <span className="material-symbols-outlined text-3xl text-primary group-hover:scale-110 transition-transform">
-                cloud_upload
-              </span>
-              <p className="font-label-md text-label-md text-primary">
-                Drag &amp; Drop ID Card
+              <h2 className="font-h3 text-h3 text-primary">Identity Verification</h2>
+              <p className="font-body-sm text-body-sm text-on-surface-variant">
+                To maintain a secure marketplace in Kigali, we require all landlords to
+                verify their identity using a valid Rwanda National ID.
               </p>
-              <p className="font-label-sm text-label-sm text-outline">
-                JPEG or PNG, Max 5MB
-              </p>
-              <input
-                accept="image/*"
-                className="hidden"
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
+              <div
+                className={`rounded-xl p-2xl flex flex-col items-center justify-center gap-sm cursor-pointer transition-colors group ${
+                  isDragging ? "bg-primary-container/10 border-primary" : "hover:bg-surface-container"
+                }`}
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%2300685FFF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e\")",
+                }}
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                <span className="material-symbols-outlined text-3xl text-primary group-hover:scale-110 transition-transform">
+                  cloud_upload
+                </span>
+                <p className="font-label-md text-label-md text-primary">
+                  Drag &amp; Drop ID Card
+                </p>
+                <p className="font-label-sm text-label-sm text-outline">
+                  JPEG or PNG, Max 5MB
+                </p>
+                <input
+                  accept="image/*"
+                  className="hidden"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+              </div>
+              <div className="bg-surface-container-low p-md rounded-lg flex items-start gap-sm">
+                <span className="material-symbols-outlined text-primary text-[20px]">
+                  info
+                </span>
+                <p className="font-label-sm text-label-sm text-on-surface-variant">
+                  Your data is encrypted and used only for verification purposes
+                  according to Rwandan data protection laws.
+                </p>
+              </div>
             </div>
-            <div className="bg-surface-container-low p-md rounded-lg flex items-start gap-sm">
-              <span className="material-symbols-outlined text-primary text-[20px]">
-                info
-              </span>
-              <p className="font-label-sm text-label-sm text-on-surface-variant">
-                Your data is encrypted and used only for verification purposes
-                according to Rwandan data protection laws.
-              </p>
-            </div>
-          </div>
+          )}
 
-            <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-md">
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
+          <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-md">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
                 <img
                   className="w-full h-full object-cover"
                   src={CURRENT_USER.avatarUrl}
