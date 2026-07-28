@@ -2,18 +2,36 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const supabase = createClient();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 2000);
+    setErrorMsg(null);
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      setErrorMsg(error.message);
+    } else {
+      router.push('/dashboard');
+    }
   };
 
   return (
@@ -64,6 +82,13 @@ export default function LoginPage() {
                 Enter your credentials to access your dashboard.
               </p>
             </div>
+            
+            {errorMsg && (
+              <div className="mb-md p-md bg-error-container text-on-error-container rounded-xl font-body-sm">
+                {errorMsg}
+              </div>
+            )}
+            
             <form className="space-y-lg" onSubmit={handleLogin}>
               {/* Email Field */}
               <div className="space-y-xs">
@@ -86,8 +111,11 @@ export default function LoginPage() {
                     id="email"
                     placeholder="name@company.com"
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setIsEmailFocused(true)}
                     onBlur={() => setIsEmailFocused(false)}
+                    required
                   />
                 </div>
               </div>
@@ -121,8 +149,11 @@ export default function LoginPage() {
                     id="password"
                     placeholder="••••••••"
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setIsPasswordFocused(true)}
                     onBlur={() => setIsPasswordFocused(false)}
+                    required
                   />
                 </div>
               </div>

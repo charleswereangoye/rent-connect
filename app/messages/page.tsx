@@ -3,8 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { INITIAL_CHATS, Chat } from "@/lib/data";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function MessagesPage() {
+  const { role } = useAuth();
   const [activeChatId, setActiveChatId] = useState<string>(INITIAL_CHATS[0].id);
   const [inputText, setInputText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -54,9 +56,11 @@ export default function MessagesPage() {
           </Link>
         </nav>
         <div className="hidden md:flex items-center gap-md">
-          <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary transition-colors hover:text-white shadow-sm">
-            Post a Listing
-          </button>
+          {role === "landlord" && (
+            <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary transition-colors hover:text-white shadow-sm">
+              Post a Listing
+            </button>
+          )}
         </div>
         <button className="md:hidden text-primary flex items-center justify-center p-xs">
           <span className="material-symbols-outlined">menu</span>

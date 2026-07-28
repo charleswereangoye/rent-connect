@@ -3,8 +3,10 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { CURRENT_USER } from "@/lib/data";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function DashboardPage() {
+  const { user, role, isLoading } = useAuth();
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,7 +49,7 @@ export default function DashboardPage() {
           </Link>
           <Link
             className="font-label-md text-label-md text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary transition-colors"
-            href="#"
+            href="/messages"
           >
             Messages
           </Link>
@@ -59,14 +61,16 @@ export default function DashboardPage() {
           </Link>
         </nav>
         <div className="flex items-center gap-md">
-          <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-opacity-90 transition-all active:opacity-80">
-            Post a Listing
-          </button>
+          {role === "landlord" && (
+            <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-opacity-90 transition-all active:opacity-80">
+              Post a Listing
+            </button>
+          )}
         </div>
       </header>
 
       {/* Verification Banner */}
-      {CURRENT_USER.verified === 'pending' && (
+      {role === "landlord" && CURRENT_USER.verified === 'pending' && (
         <div className="w-full bg-[#D97706]/10 border-l-4 border-[#D97706] py-md px-lg flex items-center gap-md">
           <span className="material-symbols-outlined text-[#D97706]">warning</span>
           <p className="font-body-md text-body-md text-[#D97706] font-medium">
@@ -76,9 +80,10 @@ export default function DashboardPage() {
       )}
 
       <main className="max-w-max-width mx-auto w-full px-lg md:px-2xl py-2xl grid grid-cols-1 lg:grid-cols-3 gap-xl flex-1">
-        {/* Left: Identity Verification Side */}
+        {/* Left Side */}
         <section className="lg:col-span-1 space-y-lg">
-          <div className="bg-white/70 backdrop-blur-md border border-white/30 p-xl rounded-xl shadow-sm space-y-md">
+          {role === "landlord" && (
+            <div className="bg-white/70 backdrop-blur-md border border-white/30 p-xl rounded-xl shadow-sm space-y-md">
             <h2 className="font-h3 text-h3 text-primary">Identity Verification</h2>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
               To maintain a secure marketplace in Kigali, we require all landlords to
@@ -125,23 +130,22 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Profile Summary Card */}
-          <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-md">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
-              <img
-                className="w-full h-full object-cover"
-                src={CURRENT_USER.avatarUrl}
-                alt={CURRENT_USER.name}
-              />
-            </div>
-            <div>
-              <h3 className="font-label-md text-label-md text-on-surface">
-                {CURRENT_USER.name}
-              </h3>
-              <p className="font-body-sm text-body-sm text-on-surface-variant">
-                {CURRENT_USER.joinedDate}
-              </p>
-              {CURRENT_USER.verified === 'pending' && (
+            <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-md">
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
+                <img
+                  className="w-full h-full object-cover"
+                  src={CURRENT_USER.avatarUrl}
+                  alt={user?.user_metadata?.full_name || CURRENT_USER.name}
+                />
+              </div>
+              <div>
+                <h3 className="font-label-md text-label-md text-on-surface">
+                  {user?.user_metadata?.full_name || CURRENT_USER.name}
+                </h3>
+                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                  {CURRENT_USER.joinedDate}
+                </p>
+              {role === "landlord" && CURRENT_USER.verified === 'pending' && (
                 <div className="flex items-center gap-xs mt-xs">
                   <span className="w-2 h-2 rounded-full bg-[#D97706]"></span>
                   <span className="font-label-sm text-label-sm text-[#D97706]">
@@ -153,8 +157,16 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Right: Listing Wizard */}
+        {/* Right Side */}
         <section className="lg:col-span-2">
+          {role === "renter" ? (
+            <div className="bg-white p-xl rounded-xl shadow-sm border border-outline-variant/30 text-center">
+              <h2 className="font-h3 text-h3 text-primary mb-md">Welcome, Renter!</h2>
+              <p className="font-body-md text-body-md text-on-surface-variant">
+                You can browse verified homes, message landlords, and keep track of your applications here.
+              </p>
+            </div>
+          ) : (
           <div className="bg-white rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
             <div className="bg-surface-container px-xl py-lg border-b border-outline-variant/30">
               <div className="flex items-center justify-between">
@@ -294,8 +306,10 @@ export default function DashboardPage() {
               </div>
             </form>
           </div>
+          )}
 
           {/* Recently Drafted */}
+          {role === "landlord" && (
           <div className="mt-xl">
             <h4 className="font-label-md text-label-md text-on-surface mb-md">
               Quick Drafts
@@ -320,6 +334,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+          )}
         </section>
       </main>
 

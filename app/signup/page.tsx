@@ -3,20 +3,45 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const supabase = createClient();
   const [role, setRole] = useState("renter");
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      // Simulate success
-      setIsSubmitting(false);
-    }, 1500);
+    setErrorMsg(null);
+    
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          phone,
+          role,
+        }
+      }
+    });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      setErrorMsg(error.message);
+    } else {
+      router.push('/dashboard');
+    }
   };
 
   return (
@@ -52,6 +77,11 @@ export default function SignUpPage() {
 
         {/* Focused Signup Card */}
         <section className="bg-white/95 backdrop-blur-md border border-outline-variant rounded-xl shadow-sm p-lg md:p-xl">
+          {errorMsg && (
+            <div className="mb-md p-md bg-error-container text-on-error-container rounded-xl font-body-sm">
+              {errorMsg}
+            </div>
+          )}
           <form className="space-y-lg" onSubmit={handleSignup}>
             {/* Role Selection */}
             <div className="grid grid-cols-2 gap-md">
@@ -126,6 +156,8 @@ export default function SignUpPage() {
                     placeholder="John Doe"
                     required
                     type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                   />
                 </div>
               </div>
@@ -148,6 +180,8 @@ export default function SignUpPage() {
                     placeholder="john@example.com"
                     required
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -171,6 +205,8 @@ export default function SignUpPage() {
                       placeholder="78X XXX XXX"
                       required
                       type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
                 </div>

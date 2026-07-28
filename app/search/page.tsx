@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { INITIAL_PROPERTIES } from "@/lib/data";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function SearchPage() {
+  const { role } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -50,21 +52,23 @@ export default function SearchPage() {
             </Link>
             <Link
               className="font-label-md text-label-md text-on-secondary-container hover:text-primary transition-colors py-xs"
-              href="#"
+              href="/messages"
             >
               Messages
             </Link>
             <Link
               className="font-label-md text-label-md text-on-secondary-container hover:text-primary transition-colors py-xs"
-              href="#"
+              href="/dashboard"
             >
               Profile
             </Link>
           </div>
           <div className="flex items-center gap-md">
-            <button className="hidden md:block bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md hover:bg-primary-container transition-all active:opacity-80">
-              Post a Listing
-            </button>
+            {role === "landlord" && (
+              <button className="hidden md:block bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md hover:bg-primary-container transition-all active:opacity-80">
+                Post a Listing
+              </button>
+            )}
             <button className="md:hidden text-primary">
               <span className="material-symbols-outlined">menu</span>
             </button>

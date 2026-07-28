@@ -44,7 +44,7 @@ export default function PropertyDetailsPage() {
           </Link>
           <Link
             className="font-label-md text-label-md text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors py-xs px-sm rounded-lg active:opacity-80 duration-150"
-            href="#"
+            href="/messages"
           >
             Messages
           </Link>
