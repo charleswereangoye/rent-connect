@@ -19,14 +19,22 @@ export default function HomePage() {
     <div className="bg-background text-on-background min-h-screen">
       {/* TopNavBar */}
       <nav
-        className={`fixed top-0 z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto transition-all duration-300 ${
           isScrolled
             ? "shadow-md bg-white/95 backdrop-blur-md dark:bg-on-surface/95"
             : "bg-surface-container-lowest dark:bg-on-surface"
         }`}
       >
-        <div className="text-h3 font-h3 text-primary dark:text-primary-fixed">
-          Rent Connect
+        <div className="flex items-center gap-sm">
+          <span
+            className="material-symbols-outlined text-primary dark:text-primary-fixed text-[32px]"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            domain
+          </span>
+          <div className="text-h3 font-h3 text-primary dark:text-primary-fixed tracking-tight">
+            Rent Connect
+          </div>
         </div>
         <div className="hidden md:flex gap-xl items-center">
           <Link
@@ -35,18 +43,7 @@ export default function HomePage() {
           >
             Home
           </Link>
-          <Link
-            className="text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary font-label-md text-label-md transition-colors"
-            href="#"
-          >
-            Messages
-          </Link>
-          <Link
-            className="text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary font-label-md text-label-md transition-colors"
-            href="#"
-          >
-            Profile
-          </Link>
+
           <Link
             href="/login"
             className="bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm"
@@ -61,9 +58,9 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <main className="pt-[64px]">
+      <main>
         {/* Hero Section */}
-        <section className="relative min-h-[870px] flex items-center overflow-hidden">
+        <section className="relative min-h-[870px] flex items-center overflow-hidden w-full max-w-max-width mx-auto">
           <div className="absolute inset-0 z-0">
             <div
               className="w-full h-full bg-cover bg-center"
@@ -474,9 +471,9 @@ export default function HomePage() {
                 Join thousands of happy residents who found their dream property
                 through Rwanda's most trusted marketplace.
               </p>
-              <button className="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-3xl py-md rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <Link href="/signup" className="inline-block bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-3xl py-md rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
                 Get Started
-              </button>
+              </Link>
               <div className="mt-xl flex justify-center flex-wrap gap-xl text-surface-container-highest/40">
                 <div className="flex items-center gap-xs">
                   <span className="material-symbols-outlined text-[18px]">
