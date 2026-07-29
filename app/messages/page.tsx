@@ -53,28 +53,36 @@ export default function MessagesPage() {
       {/* TopNavBar */}
       <header className="flex-none z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm">
         <div className="flex items-center gap-md">
-          <Link href="/" className="text-h3 font-h3 text-primary dark:text-primary-fixed tracking-tight">
-            Rent Connect
-          </Link>
+          <div className="flex items-center gap-sm">
+            <span
+              className="material-symbols-outlined text-primary text-[32px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              domain
+            </span>
+            <Link href="/" className="text-h3 font-h3 text-primary tracking-tight">
+              Rent Connect
+            </Link>
+          </div>
         </div>
         <nav className="hidden md:flex items-center gap-xl">
           <Link
-            className="text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
+            className="text-on-secondary-container hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
             href="/search"
           >
             Search
           </Link>
           <Link
-            className="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary py-xs font-label-md text-label-md px-sm"
+            className="text-primary font-bold border-b-2 border-primary py-xs font-label-md text-label-md px-sm"
             href="/messages"
           >
             Messages
           </Link>
           <Link
-            className="text-on-secondary-container dark:text-secondary-fixed-dim hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
+            className="text-on-secondary-container hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
             href="/dashboard"
           >
-            Dashboard
+            Profile
           </Link>
         </nav>
         <div className="hidden md:flex items-center gap-md">

@@ -68,15 +68,21 @@ export default function SearchPage() {
     <div className="bg-background text-on-surface min-h-screen flex flex-col">
       {/* TopNavBar */}
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 w-full max-w-max-width mx-auto z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-white/95 backdrop-blur-md shadow-md dark:bg-on-surface/95"
             : "bg-surface-container-lowest dark:bg-on-surface shadow-sm"
         }`}
       >
-        <nav className="flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto">
+        <nav className="flex justify-between items-center w-full px-lg md:px-2xl py-sm">
           <div className="flex items-center gap-sm">
-            <Link href="/" className="text-h3 font-h3 text-primary">
+            <span
+              className="material-symbols-outlined text-primary text-[32px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              domain
+            </span>
+            <Link href="/" className="text-h3 font-h3 text-primary tracking-tight">
               Rent Connect
             </Link>
           </div>
@@ -341,8 +347,7 @@ export default function SearchPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-surface-container-low border-t border-outline-variant mt-auto">
-        <div className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto">
+      <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low border-t border-outline-variant mt-auto">
           <div className="space-y-sm text-center md:text-left">
             <span className="text-label-md font-label-md text-primary">
               Rent Connect
@@ -395,7 +400,6 @@ export default function SearchPage() {
               </span>
             </button>
           </div>
-        </div>
       </footer>
     </div>
   );

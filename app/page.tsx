@@ -21,24 +21,24 @@ export default function HomePage() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto transition-all duration-300 ${
           isScrolled
-            ? "shadow-md bg-white/95 backdrop-blur-md dark:bg-on-surface/95"
-            : "bg-surface-container-lowest dark:bg-on-surface"
+            ? "shadow-md bg-white/95 backdrop-blur-md"
+            : "bg-surface-container-lowest"
         }`}
       >
         <div className="flex items-center gap-sm">
           <span
-            className="material-symbols-outlined text-primary dark:text-primary-fixed text-[32px]"
+            className="material-symbols-outlined text-primary text-[32px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             domain
           </span>
-          <div className="text-h3 font-h3 text-primary dark:text-primary-fixed tracking-tight">
+          <div className="text-h3 font-h3 text-primary tracking-tight">
             Rent Connect
           </div>
         </div>
         <div className="hidden md:flex gap-xl items-center">
           <Link
-            className="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary font-label-md text-label-md transition-colors duration-150"
+            className="text-primary font-bold border-b-2 border-primary font-label-md text-label-md transition-colors duration-150"
             href="/"
           >
             Home

@@ -151,7 +151,7 @@ export default function SignUpPage() {
                     badge
                   </span>
                   <input
-                    className="w-full pl-xl pr-md py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
+                    className="w-full pl-[48px] pr-md py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
                     id="name"
                     placeholder="John Doe"
                     required
@@ -175,7 +175,7 @@ export default function SignUpPage() {
                     mail
                   </span>
                   <input
-                    className="w-full pl-xl pr-md py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
+                    className="w-full pl-[48px] pr-md py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
                     id="email"
                     placeholder="john@example.com"
                     required
@@ -225,7 +225,7 @@ export default function SignUpPage() {
                     lock
                   </span>
                   <input
-                    className="w-full pl-xl pr-[48px] py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
+                    className="w-full pl-[48px] pr-[48px] py-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md form-input-focus"
                     id="password"
                     placeholder="••••••••"
                     required
