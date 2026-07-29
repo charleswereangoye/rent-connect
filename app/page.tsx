@@ -21,8 +21,8 @@ export default function HomePage() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto transition-all duration-300 ${
           isScrolled
-            ? "shadow-md bg-white/95 backdrop-blur-md"
-            : "bg-surface-container-lowest"
+            ? "shadow-md bg-white/95 backdrop-blur-md dark:bg-on-surface/95"
+            : "bg-surface-container-lowest dark:bg-on-surface"
         }`}
       >
         <div className="flex items-center gap-sm">
@@ -500,9 +500,9 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-secondary-fixed border-t border-outline-variant mt-auto">
+      <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-surface border-t border-outline-variant mt-auto">
         <div className="flex flex-col gap-sm items-center md:items-start">
-          <div className="text-label-md font-label-md text-primary dark:text-primary-fixed">
+          <div className="text-label-md font-label-md text-primary">
             Rent Connect Kigali
           </div>
           <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
