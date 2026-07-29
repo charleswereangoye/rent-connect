@@ -38,7 +38,11 @@ export default function SignUpPage() {
     setIsSubmitting(false);
 
     if (error) {
-      setErrorMsg(error.message);
+      console.error("Signup error:", error);
+      const msg = error.message === "{}" || !error.message 
+        ? "Could not create account. Please ensure your password is at least 6 characters and this email isn't already registered."
+        : error.message;
+      setErrorMsg(msg);
     } else {
       router.push('/dashboard');
     }

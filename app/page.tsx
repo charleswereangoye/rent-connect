@@ -6,6 +6,7 @@ import Image from "next/image";
 
 export default function HomePage() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,17 +47,51 @@ export default function HomePage() {
 
           <Link
             href="/login"
-            className="bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm"
+            className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-150"
           >
             Sign In
           </Link>
+
+          <Link
+            href="/signup"
+            className="bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm"
+          >
+            Sign Up
+          </Link>
         </div>
-        <div className="md:hidden">
+        <button className="md:hidden flex items-center justify-center bg-transparent border-none p-1" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           <span className="material-symbols-outlined text-primary text-[32px]">
-            menu
+            {isMobileMenuOpen ? "close" : "menu"}
           </span>
-        </div>
+        </button>
       </nav>
+
+      {/* Mobile Dropdown Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed top-[72px] left-0 right-0 bg-surface-container-lowest dark:bg-on-surface border-t border-outline-variant/30 shadow-lg z-40 md:hidden flex flex-col p-md">
+          <Link
+            className="font-label-md text-label-md text-primary font-bold py-md px-sm border-b border-outline-variant/30"
+            href="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            className="font-label-md text-label-md text-on-surface-variant py-md px-sm border-b border-outline-variant/30"
+            href="/login"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Sign In
+          </Link>
+          <Link
+            className="font-label-md text-label-md text-on-surface-variant py-md px-sm"
+            href="/signup"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
 
       <main>
         {/* Hero Section */}
@@ -502,8 +537,16 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-surface border-t border-outline-variant mt-auto">
         <div className="flex flex-col gap-sm items-center md:items-start">
-          <div className="text-label-md font-label-md text-primary">
-            Rent Connect Kigali
+          <div className="flex items-center gap-sm">
+            <span
+              className="material-symbols-outlined text-primary text-[24px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              domain
+            </span>
+            <span className="text-label-md font-label-md text-primary tracking-tight">
+              Rent Connect Kigali
+            </span>
           </div>
           <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
             © 2026 Rent Connect Kigali. Premier Housing Marketplace.

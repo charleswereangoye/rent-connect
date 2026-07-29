@@ -53,45 +53,53 @@ export default function MessagesPage() {
       {/* TopNavBar */}
       <header className="flex-none z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm">
         <div className="flex items-center gap-md">
-          <div className="flex items-center gap-sm">
+          <div className="flex justify-between items-center w-full md:w-auto">
+          <button onClick={() => window.location.reload()} className="flex items-center gap-sm cursor-pointer hover:opacity-80 transition-opacity text-left bg-transparent border-none p-0 outline-none">
             <span
               className="material-symbols-outlined text-primary text-[32px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               domain
             </span>
-            <Link href="/" className="text-h3 font-h3 text-primary tracking-tight">
+            <span className="text-h3 font-h3 text-primary tracking-tight">
               Rent Connect
-            </Link>
-          </div>
+            </span>
+          </button>
+          <label htmlFor="mobile-menu" className="md:hidden flex items-center p-1 text-primary cursor-pointer">
+            <span className="material-symbols-outlined text-[32px]">menu</span>
+          </label>
         </div>
-        <nav className="hidden md:flex items-center gap-xl">
+        <input type="checkbox" id="mobile-menu" className="peer hidden" />
+        </div>
+        <nav className="hidden md:flex items-center gap-xl peer-checked:flex peer-checked:absolute peer-checked:top-full peer-checked:left-0 peer-checked:right-0 peer-checked:bg-surface-container-lowest peer-checked:dark:bg-on-surface peer-checked:border-t peer-checked:border-outline-variant/30 peer-checked:flex-col peer-checked:items-stretch peer-checked:p-md peer-checked:shadow-lg peer-checked:z-50">
+          {role === "landlord" ? (
+            <>
+              <Link className="font-label-md text-label-md text-on-secondary-container hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm" href="/properties">
+                My Properties
+              </Link>
+              <Link className="font-label-md text-label-md text-on-secondary-container hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm" href="/tenants">
+                Tenants
+              </Link>
+            </>
+          ) : (
+            <Link className="font-label-md text-label-md text-on-secondary-container hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm" href="/search">
+              Search
+            </Link>
+          )}
           <Link
-            className="text-on-secondary-container hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
-            href="/search"
-          >
-            Search
-          </Link>
-          <Link
-            className="text-primary font-bold border-b-2 border-primary py-xs font-label-md text-label-md px-sm"
+            className="font-label-md text-label-md text-primary font-bold border-b-2 border-primary py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
             href="/messages"
           >
             Messages
           </Link>
           <Link
-            className="text-on-secondary-container hover:text-primary transition-colors font-label-md text-label-md py-xs px-sm rounded-lg"
+            className="font-label-md text-label-md text-on-secondary-container hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
             href="/dashboard"
           >
             Profile
           </Link>
         </nav>
-        <div className="hidden md:flex items-center gap-md">
-          {role === "landlord" && (
-            <button className="bg-primary-container text-on-primary-container px-lg py-sm rounded-xl font-label-md text-label-md hover:bg-primary transition-colors hover:text-white shadow-sm">
-              Post a Listing
-            </button>
-          )}
-        </div>
+
         <button className="md:hidden text-primary flex items-center justify-center p-xs">
           <span className="material-symbols-outlined">menu</span>
         </button>
@@ -102,7 +110,7 @@ export default function MessagesPage() {
         <div className="flex flex-grow w-full bg-surface-container-lowest md:my-lg md:rounded-xl md:shadow-sm overflow-hidden border border-outline-variant h-full">
           
           {/* Left Pane (Chat List) */}
-          <aside className="chat-sidebar w-full md:w-[380px] flex flex-col border-r border-outline-variant bg-surface-bright flex-none">
+          <aside className={`chat-sidebar w-full md:w-[380px] flex-col border-r border-outline-variant bg-surface-bright flex-none ${activeChatId ? "hidden md:flex" : "flex"}`}>
             <div className="p-lg border-b border-outline-variant">
               <h1 className="font-h3 text-h3 text-on-surface mb-md">Messages</h1>
               <div className="relative">
@@ -171,7 +179,7 @@ export default function MessagesPage() {
           </aside>
 
           {/* Right Pane (Active Chat) */}
-          <section className="flex-grow flex flex-col bg-surface-container-lowest min-w-0 h-full relative">
+          <section className={`flex-grow flex-col bg-surface-container-lowest min-w-0 h-full relative ${!activeChatId ? "hidden md:flex" : "flex"}`}>
             {!activeChat ? (
               <div className="flex-grow flex items-center justify-center text-on-surface-variant flex-col gap-md">
                 <span className="material-symbols-outlined text-5xl opacity-50">forum</span>
@@ -182,7 +190,7 @@ export default function MessagesPage() {
                 {/* Chat Header */}
                 <div className="px-lg py-md flex justify-between items-center border-b border-outline-variant flex-none">
                   <div className="flex items-center gap-md">
-                    <button className="md:hidden mr-sm flex items-center text-on-surface-variant">
+                    <button onClick={() => setActiveChatId(null)} className="md:hidden mr-sm flex items-center text-on-surface-variant hover:text-primary transition-colors">
                       <span className="material-symbols-outlined">arrow_back</span>
                     </button>
                     <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 bg-surface-container-highest flex items-center justify-center">
@@ -267,20 +275,7 @@ export default function MessagesPage() {
         </div>
       </main>
 
-      {/* Footer (Simplified for full screen apps usually, but keeping from design) */}
-      <footer className="flex-none w-full py-md px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-secondary-fixed border-t border-outline-variant">
-        <div className="flex flex-col items-center md:items-start gap-xs">
-          <span className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant text-center md:text-left">
-            © 2026 Rent Connect Kigali. Premier Housing Marketplace.
-          </span>
-        </div>
-        <div className="flex flex-wrap justify-center gap-md">
-          <Link className="text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">About Us</Link>
-          <Link className="text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Terms</Link>
-          <Link className="text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Privacy</Link>
-          <Link className="text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Help</Link>
-        </div>
-      </footer>
+
     </div>
   );
 }
