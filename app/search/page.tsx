@@ -54,15 +54,15 @@ export default function SearchPage() {
 
   useEffect(() => {
     async function fetchProperties() {
-      const { data, error } = await supabase.from('properties').select('*, landlord:profiles(*)');
+      const { data, error } = await supabase.from('properties').select('*, landlord:profiles(*)').neq('status', 'Occupied');
       if (data && data.length > 0) {
         const mapped = data.map((p: any) => ({
           id: p.id,
           title: p.title,
-          location: p.location,
+          location: p.neighborhood || p.location,
           neighborhood: p.neighborhood,
           price: p.price,
-          priceUSD: p.price_usd,
+          priceUSD: p.price_usd || Math.round((p.price || 0) / 1300),
           beds: p.beds,
           baths: p.baths,
           size: p.size_sqm,
@@ -78,8 +78,11 @@ export default function SearchPage() {
             imageUrl: p.landlord?.avatar_url || 'https://via.placeholder.com/150'
           }
         }));
-        setProperties(mapped);
-        setFilteredProperties(mapped);
+        setProperties([...mapped, ...INITIAL_PROPERTIES]);
+        setFilteredProperties([...mapped, ...INITIAL_PROPERTIES]);
+      } else {
+        setProperties(INITIAL_PROPERTIES);
+        setFilteredProperties(INITIAL_PROPERTIES);
       }
       setIsLoading(false);
     }

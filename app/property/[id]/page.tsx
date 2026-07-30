@@ -39,6 +39,7 @@ export default function PropertyDetailsPage() {
             amenities: data.amenities,
             description: data.description,
             agent: {
+              id: data.landlord_id,
               name: data.landlord?.full_name || "Unknown Landlord",
               role: data.landlord?.role === 'landlord' ? 'Verified Landlord' : 'Partner',
               experience: 'New',
@@ -305,33 +306,22 @@ export default function PropertyDetailsPage() {
                 <button className="w-full bg-primary text-on-primary py-lg rounded-xl font-h3 text-h3 hover:bg-primary-container transition-all shadow-md active:scale-[0.98]">
                   Book an In-Person Visit
                 </button>
-                <p className="text-center font-label-sm text-label-sm text-on-surface-variant">
-                  You won't be charged yet
+                <p className="text-center font-label-sm text-label-sm text-on-surface-variant flex items-center justify-center gap-xs">
+                  <span className="material-symbols-outlined text-[16px]">security</span>
+                  You won&apos;t be charged unless you are paying for the rent or deposit for the house you are moving into.
                 </p>
-              </div>
-
-              <div className="space-y-md border-t border-outline-variant pt-lg">
-                <div className="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
-                  <span>Service Fee</span>
-                  <span>RWF 5,000</span>
-                </div>
-                <div className="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
-                  <span>Visit deposit (Ref.)</span>
-                  <span>RWF 10,000</span>
-                </div>
-                <div className="flex justify-between font-label-md text-label-md text-on-surface border-t border-outline-variant pt-md">
-                  <span>Total</span>
-                  <span>RWF 15,000</span>
-                </div>
               </div>
 
               {/* Host Info Widget */}
               <div className="flex items-center gap-md p-md bg-secondary-container/30 rounded-xl border border-secondary-container">
-                <div className="w-12 h-12 rounded-full overflow-hidden shrink-0">
+                <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 bg-surface-container-low">
                   <img
                     className="w-full h-full object-cover"
                     src={property.agent.imageUrl}
                     alt={property.agent.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150';
+                    }}
                   />
                 </div>
                 <div className="flex-1">
@@ -342,9 +332,9 @@ export default function PropertyDetailsPage() {
                     {property.agent.role} • {property.agent.experience}
                   </p>
                 </div>
-                <button className="w-10 h-10 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+                <Link href={`/messages?userId=${property.agent.id}&propertyId=${property.id}`} className="w-10 h-10 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                   <span className="material-symbols-outlined text-[20px]">chat</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
