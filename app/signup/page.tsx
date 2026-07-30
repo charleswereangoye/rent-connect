@@ -59,23 +59,20 @@ export default function SignUpPage() {
       {/* Main Signup Container */}
       <main className="relative z-10 w-full max-w-[520px]">
         {/* Brand Header */}
-        <header className="text-center mb-xl">
-          <Link href="/" className="inline-flex items-center gap-sm mb-md cursor-pointer hover:opacity-80 transition-opacity">
+        <header className="text-center mb-xl flex flex-col items-center">
+          <Link href="/" className="inline-flex items-center gap-xs mb-sm cursor-pointer hover:opacity-80 transition-opacity">
             <span
               className="material-symbols-outlined text-primary text-[44px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               domain
             </span>
-            <span className="font-h3 text-h3 text-primary tracking-tight">
+            <h2 className="font-h2 text-h2 text-primary font-bold">
               Rent Connect
-            </span>
+            </h2>
           </Link>
-          <h1 className="font-h2 text-h2 text-on-background mb-xs">
+          <p className="text-on-surface-variant font-body-sm">
             Create your account
-          </h1>
-          <p className="font-body-md text-on-surface-variant">
-            Join Kigali's premier housing marketplace
           </p>
         </header>
 

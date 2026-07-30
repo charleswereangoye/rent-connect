@@ -56,7 +56,7 @@ export default function LoginPage() {
                 <span className="material-symbols-outlined text-primary-fixed text-[44px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                   domain
                 </span>
-                <span className="text-primary-fixed font-h3 text-h3 tracking-tight">
+                <span className="text-primary-fixed font-h3 text-h3 tracking-tight font-bold">
                   Rent Connect
                 </span>
               </Link>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 <span className="material-symbols-outlined text-primary text-[44px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                   domain
                 </span>
-                <h2 className="text-primary font-h2 text-h2">Rent Connect</h2>
+                <h2 className="text-primary font-h2 text-h2 font-bold">Rent Connect</h2>
               </Link>
               <p className="text-on-surface-variant font-body-sm">
                 Sign in to your account
