@@ -46,7 +46,7 @@ export default function TenantsPage() {
   return (
     <div className="bg-[#f8f9ff] text-on-surface min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm">
+      <header className="sticky top-0 z-50 flex flex-row justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm relative">
         <div className="flex justify-between items-center w-full md:w-auto">
           <button onClick={() => window.location.reload()} className="flex items-center gap-sm cursor-pointer hover:opacity-80 transition-opacity text-left bg-transparent border-none p-0 outline-none">
             <span
