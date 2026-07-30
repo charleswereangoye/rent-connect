@@ -1,17 +1,146 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/lib/AuthContext";
+import { createClient } from "@/lib/supabase/client";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, role, isLoading, signOut } = useAuth();
+  const supabase = createClient();
+  
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (user) {
+      setFullName(user.user_metadata?.full_name || "");
+      setEmail(user.email || "");
+      setPhone(user.user_metadata?.phone || "");
+      
+      const status = user.user_metadata?.verification_status;
+      if (status === 'verified') setIsVerified(true);
+      else setIsVerified(false);
+    }
+  }, [user]);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setAvatarFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleProfileSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    
+    let newAvatarUrl = user?.user_metadata?.avatar_url;
+    
+    if (avatarFile && user) {
+      const fileExt = avatarFile.name.split('.').pop();
+      const filePath = `${user.id}-${Math.random()}.${fileExt}`;
+      
+      const { error } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, avatarFile, { upsert: true });
+        
+      if (error) {
+        alert(`Error uploading avatar: ${error.message}. Ensure 'avatars' bucket exists and is public in Supabase.`);
+      } else {
+        const { data: publicUrlData } = supabase.storage
+          .from('avatars')
+          .getPublicUrl(filePath);
+        newAvatarUrl = publicUrlData.publicUrl;
+      }
+    }
+
+    const { error } = await supabase.auth.updateUser({
+      email: email !== user?.email ? email : undefined,
+      data: {
+        full_name: fullName,
+        phone: phone,
+        avatar_url: newAvatarUrl
+      }
+    });
+
+    if (error) {
+      alert(`Error updating profile: ${error.message}`);
+    } else {
+      setIsEditingProfile(false);
+      setAvatarFile(null);
+    }
+    setIsSaving(false);
+  };
+
+  const processFileVerification = async (file: File) => {
+    setIsVerifying(true);
+    setVerificationError(null);
+    
+    if (user) {
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${user.id}-id-${Math.random()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('identities')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        setVerificationError(`Error uploading ID: ${uploadError.message}. Make sure you created an 'identities' bucket.`);
+        setIsVerifying(false);
+        return;
+      }
+
+      await supabase.auth.updateUser({
+        data: { verification_status: 'in_progress' }
+      });
+    }
+    
+    setTimeout(async () => {
+      const userName = user?.user_metadata?.full_name?.toLowerCase() || "";
+      const firstName = userName.split(" ")[0] || "";
+      
+      // Simple logic: check if the file name contains the user's first name
+      if (firstName && file.name.toLowerCase().includes(firstName)) {
+        if (user) {
+          await supabase.auth.updateUser({
+            data: { verification_status: 'verified' }
+          });
+        }
+        setIsVerified(true);
+        setIsVerifying(false);
+      } else {
+        if (user) {
+          await supabase.auth.updateUser({
+            data: { verification_status: 'not_verified' }
+          });
+        }
+        setVerificationError(`Verification failed. The uploaded ID (${file.name}) does not appear to match the registered name: ${user?.user_metadata?.full_name || 'Unknown'}. Please ensure the file name contains your first name.`);
+        setIsVerifying(false);
+      }
+    }, 1500);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -26,13 +155,13 @@ export default function DashboardPage() {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      alert(`File "${e.dataTransfer.files[0].name}" received. In a real app, this would begin the secure upload process.`);
+      processFileVerification(e.dataTransfer.files[0]);
     }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      alert(`File "${e.target.files[0].name}" selected.`);
+      processFileVerification(e.target.files[0]);
     }
   };
 
@@ -97,7 +226,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Verification Banner */}
-      {role === "landlord" && (
+      {role === "landlord" && !isVerified && (
         <div className="w-full bg-[#D97706]/10 border-l-4 border-[#D97706] py-md px-lg flex items-center justify-center gap-md text-center">
           <span className="material-symbols-outlined text-[#D97706]">warning</span>
           <p className="font-body-md text-body-md text-[#D97706] font-medium">
@@ -115,7 +244,13 @@ export default function DashboardPage() {
             </div>
             <div className="px-xl pb-xl relative flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full border-4 border-white bg-surface-container-high flex items-center justify-center overflow-hidden -mt-12 shadow-md">
-                {user?.user_metadata?.avatar_url ? (
+                {avatarPreview ? (
+                  <img
+                    className="w-full h-full object-cover"
+                    src={avatarPreview}
+                    alt={user?.user_metadata?.full_name || "User"}
+                  />
+                ) : user?.user_metadata?.avatar_url ? (
                   <img
                     className="w-full h-full object-cover"
                     src={user.user_metadata.avatar_url}
@@ -132,11 +267,19 @@ export default function DashboardPage() {
                 {role} Account
               </p>
               
-              {role === "landlord" && (
-                <div className="flex items-center justify-center gap-xs mt-md bg-[#D97706]/10 px-md py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm rounded-full">
+              {role === "landlord" && !isVerified && (
+                <div className="flex items-center justify-center gap-xs mt-md bg-[#D97706]/10 px-md py-xs rounded-full">
                   <span className="w-2 h-2 rounded-full bg-[#D97706] animate-pulse"></span>
                   <span className="font-label-sm text-label-sm text-[#D97706] font-medium">
                     Verification in progress
+                  </span>
+                </div>
+              )}
+              {role === "landlord" && isVerified && (
+                <div className="flex items-center justify-center gap-xs mt-md bg-[#059669]/10 px-md py-xs rounded-full">
+                  <span className="material-symbols-outlined text-[#059669] text-[16px]">verified</span>
+                  <span className="font-label-sm text-label-sm text-[#059669] font-medium">
+                    KYC Verified
                   </span>
                 </div>
               )}
@@ -156,13 +299,26 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {role === "landlord" && (
-            <div className="bg-white/70 backdrop-blur-md border border-white/30 p-xl rounded-xl shadow-sm space-y-md order-2">
+          {role === "landlord" && !isVerified && (
+            <div className="bg-white/70 backdrop-blur-md border border-white/30 p-xl rounded-xl shadow-sm space-y-md order-2 relative">
+              {isVerifying && (
+                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-xl">
+                  <span className="material-symbols-outlined text-primary text-4xl animate-spin mb-sm">refresh</span>
+                  <p className="font-label-md text-primary font-bold">Verifying ID...</p>
+                </div>
+              )}
               <h2 className="font-h3 text-h3 text-primary">Identity Verification</h2>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
                 To maintain a secure marketplace in Kigali, we require all landlords to
                 verify their identity using a valid Rwanda National ID.
               </p>
+              
+              {verificationError && (
+                <div className="bg-error-container text-on-error-container p-sm rounded-lg text-sm font-medium">
+                  {verificationError}
+                </div>
+              )}
+
               <div
                 className={`rounded-xl p-2xl flex flex-col items-center justify-center gap-sm cursor-pointer transition-colors group ${
                   isDragging ? "bg-primary-container/10 border-primary" : "hover:bg-surface-container"
@@ -199,9 +355,21 @@ export default function DashboardPage() {
                 </span>
                 <p className="font-label-sm text-label-sm text-on-surface-variant">
                   Your data is encrypted and used only for verification purposes
-                  according to Rwandan data protection laws.
+                  according to Rwandan data protection laws. We value your privacy.
                 </p>
               </div>
+            </div>
+          )}
+
+          {role === "landlord" && isVerified && (
+            <div className="bg-primary/5 border border-primary/20 p-xl rounded-xl space-y-md text-center flex flex-col items-center justify-center order-2 h-full min-h-[300px]">
+              <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-sm shadow-inner">
+                <span className="material-symbols-outlined text-[48px]">verified_user</span>
+              </div>
+              <h2 className="font-h3 text-h3 text-primary">Identity Verified</h2>
+              <p className="font-body-sm text-body-sm text-on-surface-variant max-w-[300px]">
+                Your identity has been successfully verified. You now have full access to publish and manage properties on Rent Connect.
+              </p>
             </div>
           )}
 
@@ -245,13 +413,15 @@ export default function DashboardPage() {
                     </button>
                   )}
                 </div>
-                <form className="p-xl space-y-xl" onSubmit={(e) => { e.preventDefault(); alert('Profile settings saved successfully!'); setIsEditingProfile(false); }}>
+                <form className="p-xl space-y-xl" onSubmit={handleProfileSave}>
                   
                   {/* Avatar upload section */}
                   <div className="flex flex-col md:flex-row items-center md:items-center gap-lg p-lg bg-surface-container-lowest rounded-xl border border-outline-variant/50 text-center md:text-left">
-                    <div className={`relative group ${isEditingProfile ? 'cursor-pointer' : ''}`} onClick={() => isEditingProfile && fileInputRef.current?.click()}>
+                    <div className={`relative group ${isEditingProfile ? 'cursor-pointer' : ''}`} onClick={() => isEditingProfile && avatarInputRef.current?.click()}>
                       <div className={`w-24 h-24 rounded-full bg-surface-container-high border-4 border-white shadow-md flex items-center justify-center overflow-hidden transition-transform ${isEditingProfile ? 'group-hover:scale-105' : ''}`}>
-                        {user?.user_metadata?.avatar_url ? (
+                        {avatarPreview ? (
+                          <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
+                        ) : user?.user_metadata?.avatar_url ? (
                           <img src={user.user_metadata.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
                           <span className="material-symbols-outlined text-primary text-4xl">person</span>
@@ -269,13 +439,14 @@ export default function DashboardPage() {
                           <button 
                             type="button" 
                             className="px-lg py-sm bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm active:scale-95"
-                            onClick={() => fileInputRef.current?.click()}
+                            onClick={() => avatarInputRef.current?.click()}
                           >
                             Upload New
                           </button>
                           <button 
                             type="button" 
                             className="px-lg py-sm bg-surface-container text-error rounded-xl font-label-md text-label-md hover:bg-error/10 transition-all active:scale-95"
+                            onClick={() => setAvatarPreview(null)}
                           >
                             Remove
                           </button>
@@ -283,6 +454,13 @@ export default function DashboardPage() {
                         <p className="font-label-sm text-label-sm text-outline">
                           At least 500x500 px recommended. Max 5MB.
                         </p>
+                        <input
+                          accept="image/*"
+                          className="hidden"
+                          type="file"
+                          ref={avatarInputRef}
+                          onChange={handleAvatarChange}
+                        />
                       </div>
                     ) : (
                       <div className="space-y-xs">
@@ -302,8 +480,9 @@ export default function DashboardPage() {
                         <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">person</span>
                         <input
                           type="text"
-                          defaultValue={user?.user_metadata?.full_name || ""}
-                          disabled={!isEditingProfile}
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          disabled={!isEditingProfile || isSaving}
                           className="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-xl pl-12 pr-md py-sm font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-80 disabled:bg-surface-container-low"
                           placeholder="Your full name"
                         />
@@ -318,8 +497,9 @@ export default function DashboardPage() {
                         <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">mail</span>
                         <input
                           type="email"
-                          defaultValue={user?.email || ""}
-                          disabled={!isEditingProfile}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          disabled={!isEditingProfile || isSaving}
                           className="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-xl pl-12 pr-md py-sm font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-80 disabled:bg-surface-container-low"
                           placeholder="your.email@example.com"
                         />
@@ -334,8 +514,9 @@ export default function DashboardPage() {
                         <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">phone</span>
                         <input
                           type="tel"
-                          defaultValue={user?.user_metadata?.phone || ""}
-                          disabled={!isEditingProfile}
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          disabled={!isEditingProfile || isSaving}
                           className="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-xl pl-12 pr-md py-sm font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-80 disabled:bg-surface-container-low"
                           placeholder="+250 7XX XXX XXX"
                         />
@@ -344,20 +525,40 @@ export default function DashboardPage() {
                   </div>
 
                   {isEditingProfile && (
-                    <div className="flex justify-end items-center gap-md pt-lg border-t border-outline-variant/30 mt-xl">
-                      <button
-                        className="px-xl py-sm font-label-md text-label-md text-on-surface-variant hover:text-on-surface bg-transparent hover:bg-surface-container rounded-xl transition-all active:scale-95"
-                        type="button"
-                        onClick={() => setIsEditingProfile(false)}
+                    <div className="flex justify-end gap-md pt-lg border-t border-outline-variant/30 mt-xl">
+                      <button 
+                        type="button" 
+                        onClick={() => {
+                          setIsEditingProfile(false);
+                          setAvatarPreview(null);
+                          setAvatarFile(null);
+                          if (user) {
+                            setFullName(user.user_metadata?.full_name || "");
+                            setEmail(user.email || "");
+                            setPhone(user.user_metadata?.phone || "");
+                          }
+                        }}
+                        className="px-xl py-sm bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-md rounded-xl transition-colors border border-outline-variant/50"
+                        disabled={isSaving}
                       >
                         Cancel
                       </button>
-                      <button
-                        className="bg-primary text-on-primary px-xl py-sm rounded-xl font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center gap-sm"
-                        type="submit"
+                      <button 
+                        type="submit" 
+                        className="px-xl py-sm bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container font-label-md rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
+                        disabled={isSaving}
                       >
-                        <span className="material-symbols-outlined text-[18px]">save</span>
-                        Save Changes
+                        {isSaving ? (
+                          <>
+                            <span className="material-symbols-outlined animate-spin text-[18px]">refresh</span>
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <span className="material-symbols-outlined text-[18px]">save</span>
+                            Save Changes
+                          </>
+                        )}
                       </button>
                     </div>
                   )}
