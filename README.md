@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rent Connect
 
-## Getting Started
+Rent Connect is a web application designed to make finding and renting houses much easier. It serves as a bridge, connecting people looking for a place to live (renters) directly with property owners (landlords).
 
-First, run the development server:
+## What can you do on Rent Connect?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**For Renters:**
+- Create an account and set up a personal profile.
+- Browse and search through available rental properties.
+- View detailed information, features, and photos for each house.
+- Chat directly with landlords using the built-in messaging system to ask questions or schedule a visit.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**For Landlords:**
+- Create an account to manage your rental properties.
+- Add new properties to the platform, including uploading photos, setting the price, and listing features.
+- Receive messages directly from interested renters and reply to them in real-time.
+- Keep track of all your active property listings in one simple dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How it was built
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project was built using modern web development tools:
+- **Next.js & React**: Used to build the website's structure and make it interactive.
+- **Tailwind CSS**: Used to design the website so it looks beautiful and works perfectly on both phones and computers.
+- **Supabase**: The secure database used to store all the user accounts, property listings, uploaded images, and chat messages.
 
-## Learn More
+## How to run the project on your computer
 
-To learn more about Next.js, take a look at the following resources:
+1. First, make sure you have installed the required files by running this command in your terminal:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Start the website on your computer by running:
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Open your web browser and go to `http://localhost:3000` to use the application!
