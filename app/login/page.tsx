@@ -52,9 +52,14 @@ export default function LoginPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent z-10" />
           <div className="relative z-20 flex flex-col justify-end p-2xl text-surface-container-lowest max-w-[576px]">
             <div className="mb-lg">
-              <span className="text-primary-fixed font-h3 text-h3 tracking-tight">
-                Rent Connect
-              </span>
+              <Link href="/" className="inline-flex items-center gap-xs cursor-pointer hover:opacity-80 transition-opacity">
+                <span className="material-symbols-outlined text-primary-fixed text-[44px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  domain
+                </span>
+                <span className="text-primary-fixed font-h3 text-h3 tracking-tight">
+                  Rent Connect
+                </span>
+              </Link>
             </div>
             <h1 className="font-h1 text-h1 mb-md leading-tight">
               Welcome back to Rent Connect.
@@ -67,11 +72,16 @@ export default function LoginPage() {
         </section>
 
         {/* Right Side: Login Form */}
-        <section className="w-full md:w-1/2 flex flex-col bg-surface-container-lowest items-center justify-center p-lg md:p-3xl">
+        <section className="w-full md:w-1/2 flex-1 flex flex-col bg-surface-container-lowest items-center justify-center p-lg md:p-3xl">
           <div className="w-full max-w-[440px]">
             {/* Mobile Branding */}
-            <div className="md:hidden mb-xl text-center">
-              <h2 className="text-primary font-h2 text-h2 mb-sm">Rent Connect</h2>
+            <div className="md:hidden mb-xl text-center flex flex-col items-center">
+              <Link href="/" className="inline-flex items-center gap-xs mb-sm cursor-pointer hover:opacity-80 transition-opacity">
+                <span className="material-symbols-outlined text-primary text-[44px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  domain
+                </span>
+                <h2 className="text-primary font-h2 text-h2">Rent Connect</h2>
+              </Link>
               <p className="text-on-surface-variant font-body-sm">
                 Sign in to your account
               </p>
@@ -244,52 +254,6 @@ export default function LoginPage() {
         </section>
       </main>
 
-      {/* Mini Footer */}
-      <footer className="bg-surface-container-low border-t border-outline-variant w-full mt-auto">
-        <div className="max-w-max-width mx-auto px-lg py-md flex flex-col md:flex-row justify-between items-center gap-md">
-          <div className="flex flex-col md:flex-row items-center gap-base text-center md:text-left">
-            <span className="text-primary font-label-md text-label-md">
-              Rent Connect
-            </span>
-            <span className="text-outline hidden md:inline mx-sm">|</span>
-            <span className="text-on-surface-variant font-body-sm text-body-sm">
-              © 2026 Rent Connect Kigali. Premier Housing Marketplace.
-            </span>
-          </div>
-          <nav className="flex flex-wrap justify-center gap-lg">
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              About Us
-            </Link>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Help Center
-            </Link>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Contact Support
-            </Link>
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 }

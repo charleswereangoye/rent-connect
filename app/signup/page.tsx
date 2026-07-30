@@ -60,9 +60,9 @@ export default function SignUpPage() {
       <main className="relative z-10 w-full max-w-[520px]">
         {/* Brand Header */}
         <header className="text-center mb-xl">
-          <div className="inline-flex items-center gap-sm mb-md">
+          <Link href="/" className="inline-flex items-center gap-sm mb-md cursor-pointer hover:opacity-80 transition-opacity">
             <span
-              className="material-symbols-outlined text-primary text-[32px]"
+              className="material-symbols-outlined text-primary text-[44px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               domain
@@ -70,7 +70,7 @@ export default function SignUpPage() {
             <span className="font-h3 text-h3 text-primary tracking-tight">
               Rent Connect
             </span>
-          </div>
+          </Link>
           <h1 className="font-h2 text-h2 text-on-background mb-xs">
             Create your account
           </h1>
@@ -80,7 +80,7 @@ export default function SignUpPage() {
         </header>
 
         {/* Focused Signup Card */}
-        <section className="bg-white/95 backdrop-blur-md border border-outline-variant rounded-xl shadow-sm p-lg md:p-xl">
+        <section className="w-full">
           {errorMsg && (
             <div className="mb-md p-md bg-error-container text-on-error-container rounded-xl font-body-sm">
               {errorMsg}
@@ -354,35 +354,6 @@ export default function SignUpPage() {
             </p>
           </form>
         </section>
-
-        {/* Footer Links */}
-        <footer className="mt-xl py-lg text-center">
-          <div className="flex justify-center gap-lg mb-md">
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Terms of Service
-            </Link>
-            <span className="text-outline-variant text-[8px]">•</span>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Privacy Policy
-            </Link>
-            <span className="text-outline-variant text-[8px]">•</span>
-            <Link
-              className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
-              href="#"
-            >
-              Help Center
-            </Link>
-          </div>
-          <p className="font-label-sm text-label-sm text-outline text-center md:text-left">
-            © 2026 Rent Connect Kigali. Premier Housing Marketplace.
-          </p>
-        </footer>
       </main>
     </div>
   );
