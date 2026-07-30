@@ -126,7 +126,7 @@ export default function SearchPage() {
         <input type="checkbox" id="mobile-menu" className="peer hidden" />
           <div className="hidden md:flex items-center gap-xl peer-checked:flex peer-checked:absolute peer-checked:top-full peer-checked:left-0 peer-checked:right-0 peer-checked:bg-surface-container-lowest peer-checked:dark:bg-on-surface peer-checked:border-t peer-checked:border-outline-variant/30 peer-checked:flex-col peer-checked:items-stretch peer-checked:p-md peer-checked:shadow-lg peer-checked:z-50">
             <Link
-              className="font-label-md text-label-md text-primary font-bold border-b-2 border-primary py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
+              className="font-label-md text-label-md text-primary font-bold border-b-2 border-transparent py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
               href="/search"
             >
               Search
@@ -144,11 +144,7 @@ export default function SearchPage() {
               Profile
             </Link>
           </div>
-          <div className="flex items-center gap-md">
-            <button className="md:hidden text-primary">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
-          </div>
+          
         </nav>
       </header>
 
@@ -479,7 +475,7 @@ export default function SearchPage() {
       {/* Footer */}
       <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface border-t border-outline-variant mt-auto">
           <div className="space-y-sm text-center md:text-left">
-            <div className="flex items-center gap-sm">
+            <div className="flex items-center justify-center md:justify-start gap-sm">
             <span
               className="material-symbols-outlined text-primary text-[24px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -490,8 +486,8 @@ export default function SearchPage() {
               Rent Connect
             </span>
           </div>
-            <p className="font-body-sm text-body-sm text-on-surface-variant max-w-[320px]">
-              © 2026 Rent Connect Kigali. Premier Housing Marketplace.
+            <p className="font-body-sm text-body-sm text-on-surface-variant max-w-[320px] text-center md:text-left">
+            © 2026 Rent Connect Kigali. Premier Housing Marketplace.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-lg">

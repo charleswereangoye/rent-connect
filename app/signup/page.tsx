@@ -379,7 +379,7 @@ export default function SignUpPage() {
               Help Center
             </Link>
           </div>
-          <p className="font-label-sm text-label-sm text-outline">
+          <p className="font-label-sm text-label-sm text-outline text-center md:text-left">
             © 2026 Rent Connect Kigali. Premier Housing Marketplace.
           </p>
         </footer>

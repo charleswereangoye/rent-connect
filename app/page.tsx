@@ -26,7 +26,7 @@ export default function HomePage() {
             : "bg-surface-container-lowest dark:bg-on-surface"
         }`}
       >
-        <div className="flex items-center gap-sm">
+        <div className="flex items-center justify-center md:justify-start gap-sm">
           <span
             className="material-symbols-outlined text-primary text-[32px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
         <div className="hidden md:flex gap-xl items-center">
           <Link
-            className="text-primary font-bold border-b-2 border-primary font-label-md text-label-md transition-colors duration-150"
+            className="text-primary font-bold border-b-2 border-transparent font-label-md text-label-md transition-colors duration-150"
             href="/"
           >
             Home
@@ -64,34 +64,33 @@ export default function HomePage() {
             {isMobileMenuOpen ? "close" : "menu"}
           </span>
         </button>
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-full left-0 right-0 bg-surface-container-lowest dark:bg-on-surface border-t border-outline-variant/30 shadow-lg z-40 md:hidden flex flex-col p-md">
+            <Link
+              className="font-label-md text-label-md text-primary font-bold py-md px-sm"
+              href="/"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              className="font-label-md text-label-md text-on-surface-variant py-md px-sm"
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+            <Link
+              className="font-label-md text-label-md text-on-surface-variant py-md px-sm"
+              href="/signup"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
       </nav>
-
-      {/* Mobile Dropdown Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed top-[72px] left-0 right-0 bg-surface-container-lowest dark:bg-on-surface border-t border-outline-variant/30 shadow-lg z-40 md:hidden flex flex-col p-md">
-          <Link
-            className="font-label-md text-label-md text-primary font-bold py-md px-sm border-b border-outline-variant/30"
-            href="/"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            className="font-label-md text-label-md text-on-surface-variant py-md px-sm border-b border-outline-variant/30"
-            href="/login"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Sign In
-          </Link>
-          <Link
-            className="font-label-md text-label-md text-on-surface-variant py-md px-sm"
-            href="/signup"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
-        </div>
-      )}
 
       <main>
         {/* Hero Section */}
@@ -537,7 +536,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-surface border-t border-outline-variant mt-auto">
         <div className="flex flex-col gap-sm items-center md:items-start">
-          <div className="flex items-center gap-sm">
+          <div className="flex items-center justify-center md:justify-start gap-sm">
             <span
               className="material-symbols-outlined text-primary text-[24px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -548,7 +547,7 @@ export default function HomePage() {
               Rent Connect Kigali
             </span>
           </div>
-          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant text-center md:text-left">
             © 2026 Rent Connect Kigali. Premier Housing Marketplace.
           </p>
         </div>

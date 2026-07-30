@@ -122,9 +122,7 @@ export default function PropertyDetailsPage() {
           </Link>
         </nav>
 
-        <button className="md:hidden text-primary flex items-center justify-center p-xs">
-            <span className="material-symbols-outlined text-primary">menu</span>
-        </button>
+        
       </header>
 
       <main className="max-w-max-width mx-auto px-lg md:px-2xl py-xl flex-1 w-full">
@@ -356,7 +354,7 @@ export default function PropertyDetailsPage() {
       {/* Footer */}
       <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-secondary-fixed border-t border-outline-variant mt-auto">
         <div className="flex flex-col items-center md:items-start gap-xs">
-          <div className="flex items-center gap-sm">
+          <div className="flex items-center justify-center md:justify-start gap-sm">
             <span
               className="material-symbols-outlined text-primary text-[24px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -367,7 +365,7 @@ export default function PropertyDetailsPage() {
               Rent Connect
             </span>
           </div>
-          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant text-center md:text-left">
             © 2026 Rent Connect Kigali. Premier Housing Marketplace.
           </p>
         </div>

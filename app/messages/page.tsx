@@ -51,9 +51,8 @@ export default function MessagesPage() {
   return (
     <div className="bg-[#f8f9ff] text-on-surface min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed overflow-hidden h-screen">
       {/* TopNavBar */}
-      <header className="flex-none z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm">
-        <div className="flex items-center gap-md">
-          <div className="flex justify-between items-center w-full md:w-auto">
+      <header className="flex-none z-50 flex justify-between items-center w-full px-lg md:px-2xl py-sm max-w-max-width mx-auto bg-surface-container-lowest dark:bg-on-surface shadow-sm relative">
+        <div className="flex justify-between items-center w-full md:w-auto">
           <button onClick={() => window.location.reload()} className="flex items-center gap-sm cursor-pointer hover:opacity-80 transition-opacity text-left bg-transparent border-none p-0 outline-none">
             <span
               className="material-symbols-outlined text-primary text-[32px]"
@@ -70,7 +69,6 @@ export default function MessagesPage() {
           </label>
         </div>
         <input type="checkbox" id="mobile-menu" className="peer hidden" />
-        </div>
         <nav className="hidden md:flex items-center gap-xl peer-checked:flex peer-checked:absolute peer-checked:top-full peer-checked:left-0 peer-checked:right-0 peer-checked:bg-surface-container-lowest peer-checked:dark:bg-on-surface peer-checked:border-t peer-checked:border-outline-variant/30 peer-checked:flex-col peer-checked:items-stretch peer-checked:p-md peer-checked:shadow-lg peer-checked:z-50">
           {role === "landlord" ? (
             <>
@@ -87,7 +85,7 @@ export default function MessagesPage() {
             </Link>
           )}
           <Link
-            className="font-label-md text-label-md text-primary font-bold border-b-2 border-primary py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
+            className="font-label-md text-label-md text-primary font-bold border-b-2 border-transparent py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
             href="/messages"
           >
             Messages
@@ -100,9 +98,7 @@ export default function MessagesPage() {
           </Link>
         </nav>
 
-        <button className="md:hidden text-primary flex items-center justify-center p-xs">
-          <span className="material-symbols-outlined">menu</span>
-        </button>
+        
       </header>
 
       {/* Main Messaging Content */}

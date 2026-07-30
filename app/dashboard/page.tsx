@@ -88,7 +88,7 @@ export default function DashboardPage() {
             Messages
           </Link>
           <Link
-            className="font-label-md text-label-md text-primary font-bold border-b-2 border-primary py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
+            className="font-label-md text-label-md text-primary font-bold border-b-2 border-transparent py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
             href="/dashboard"
           >
             Profile
@@ -108,7 +108,7 @@ export default function DashboardPage() {
 
       <main className="max-w-max-width mx-auto w-full px-lg md:px-2xl py-2xl grid grid-cols-1 lg:grid-cols-3 gap-xl flex-1">
         {/* Left Side */}
-        <section className="lg:col-span-1 space-y-lg flex flex-col">
+        <section className="lg:col-span-1 space-y-lg flex flex-col order-2 lg:order-1">
           <div className="bg-white rounded-2xl shadow-lg shadow-primary/5 border border-outline-variant/30 overflow-hidden flex flex-col order-1">
             <div className="h-24 bg-gradient-to-r from-primary-container to-primary/80 relative">
               <div className="absolute inset-0 opacity-20 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMSI+PC9wYXRoPgo8L3N2Zz4=')]"></div>
@@ -208,7 +208,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Right Side */}
-        <section className="lg:col-span-2">
+        <section className="lg:col-span-2 order-1 lg:order-2">
             <div className="space-y-lg">
               {/* Premium Welcome Banner */}
               <div className="relative overflow-hidden bg-gradient-to-br from-primary to-primary-container p-xl rounded-2xl shadow-lg shadow-primary/20 text-left flex flex-col md:flex-row items-center gap-lg">
@@ -248,7 +248,7 @@ export default function DashboardPage() {
                 <form className="p-xl space-y-xl" onSubmit={(e) => { e.preventDefault(); alert('Profile settings saved successfully!'); setIsEditingProfile(false); }}>
                   
                   {/* Avatar upload section */}
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-lg p-lg bg-surface-container-lowest rounded-xl border border-outline-variant/50">
+                  <div className="flex flex-col md:flex-row items-center md:items-center gap-lg p-lg bg-surface-container-lowest rounded-xl border border-outline-variant/50 text-center md:text-left">
                     <div className={`relative group ${isEditingProfile ? 'cursor-pointer' : ''}`} onClick={() => isEditingProfile && fileInputRef.current?.click()}>
                       <div className={`w-24 h-24 rounded-full bg-surface-container-high border-4 border-white shadow-md flex items-center justify-center overflow-hidden transition-transform ${isEditingProfile ? 'group-hover:scale-105' : ''}`}>
                         {user?.user_metadata?.avatar_url ? (
@@ -370,7 +370,7 @@ export default function DashboardPage() {
       {/* Footer */}
       <footer className="w-full py-xl px-lg md:px-2xl flex flex-col md:flex-row justify-between items-center gap-md max-w-max-width mx-auto bg-surface-container-low dark:bg-on-secondary-fixed border-t border-outline-variant mt-auto">
         <div className="flex flex-col items-center md:items-start gap-xs">
-          <div className="flex items-center gap-sm">
+          <div className="flex items-center justify-center md:justify-start gap-sm">
             <span
               className="material-symbols-outlined text-primary text-[24px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -381,7 +381,7 @@ export default function DashboardPage() {
               Rent Connect
             </span>
           </div>
-          <p className="font-body-sm text-body-sm text-on-surface dark:text-surface-variant">
+          <p className="font-body-sm text-body-sm text-on-surface dark:text-surface-variant text-center md:text-left">
             © 2026 Rent Connect Kigali. Premier Housing Marketplace.
           </p>
         </div>

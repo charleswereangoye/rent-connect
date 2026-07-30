@@ -247,11 +247,11 @@ export default function LoginPage() {
       {/* Mini Footer */}
       <footer className="bg-surface-container-low border-t border-outline-variant w-full mt-auto">
         <div className="max-w-max-width mx-auto px-lg py-md flex flex-col md:flex-row justify-between items-center gap-md">
-          <div className="flex items-center gap-base">
+          <div className="flex flex-col md:flex-row items-center gap-base text-center md:text-left">
             <span className="text-primary font-label-md text-label-md">
               Rent Connect
             </span>
-            <span className="text-outline mx-sm">|</span>
+            <span className="text-outline hidden md:inline mx-sm">|</span>
             <span className="text-on-surface-variant font-body-sm text-body-sm">
               © 2026 Rent Connect Kigali. Premier Housing Marketplace.
             </span>
