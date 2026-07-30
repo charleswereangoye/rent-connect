@@ -33,8 +33,8 @@ export default function PropertyDetailsPage() {
             beds: data.beds,
             baths: data.baths,
             size: data.size_sqm,
-            imageUrl: data.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image',
-            galleryImages: data.gallery_images?.length > 0 ? data.gallery_images : [data.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image'],
+            imageUrl: data.main_image_url || 'https://placehold.co/800x600?text=No+Image',
+            galleryImages: data.gallery_images?.length > 0 ? data.gallery_images : [data.main_image_url || 'https://placehold.co/800x600?text=No+Image'],
             verified: data.verified,
             amenities: data.amenities,
             description: data.description,
@@ -43,7 +43,7 @@ export default function PropertyDetailsPage() {
               name: data.landlord?.full_name || "Unknown Landlord",
               role: data.landlord?.role === 'landlord' ? 'Verified Landlord' : 'Partner',
               experience: 'New',
-              imageUrl: data.landlord?.avatar_url || 'https://via.placeholder.com/150'
+              imageUrl: data.landlord?.avatar_url || 'https://placehold.co/150'
             }
           });
         }
@@ -119,7 +119,7 @@ export default function PropertyDetailsPage() {
             className="font-label-md text-label-md text-on-secondary-container hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors py-xs peer-checked:py-md peer-checked:border-b peer-checked:border-outline-variant/30 peer-checked:w-full peer-checked:px-sm"
             href="/dashboard"
           >
-            Dashboard
+            Profile
           </Link>
         </nav>
 
@@ -320,7 +320,7 @@ export default function PropertyDetailsPage() {
                     src={property.agent.imageUrl}
                     alt={property.agent.name}
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150';
+                      (e.target as HTMLImageElement).src = 'https://placehold.co/150';
                     }}
                   />
                 </div>

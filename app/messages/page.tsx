@@ -315,14 +315,14 @@ export default function MessagesPage() {
                           className="w-full h-full object-cover"
                           src={activeChat.landlord.avatar_url}
                           alt={activeChat.landlord.full_name}
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/150'; }}
                         />
                       ) : (activeChat.landlord_id === user?.id && activeChat.renter?.avatar_url) ? (
                         <img
                           className="w-full h-full object-cover"
                           src={activeChat.renter.avatar_url}
                           alt={activeChat.renter.full_name}
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/150'; }}
                         />
                       ) : (
                         <span className="material-symbols-outlined text-outline">person</span>

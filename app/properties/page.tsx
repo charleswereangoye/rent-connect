@@ -524,7 +524,7 @@ export default function PropertiesPage() {
                 {fetchedProps.map((p) => (
                   <div key={p.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-outline-variant/30 flex flex-col">
                     <div className="h-48 relative">
-                      <img src={p.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image'} alt={p.title} className="w-full h-full object-cover" />
+                      <img src={p.main_image_url || 'https://placehold.co/1500x600?text=No+Image'} alt={p.title} className="w-full h-full object-cover" />
                       <div className="absolute top-sm left-sm backdrop-blur-md rounded-full shadow-sm">
                         <select 
                           value={p.status || 'Vacant'} 

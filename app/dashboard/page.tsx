@@ -85,6 +85,14 @@ export default function DashboardPage() {
       }
     });
 
+    if (user) {
+      // Keep public profiles table in sync
+      await supabase.from('profiles').update({
+        full_name: fullName,
+        avatar_url: newAvatarUrl
+      }).eq('id', user.id);
+    }
+
     if (error) {
       alert(`Error updating profile: ${error.message}`);
     } else {

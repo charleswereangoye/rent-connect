@@ -66,7 +66,7 @@ export default function SearchPage() {
           beds: p.beds,
           baths: p.baths,
           size: p.size_sqm,
-          imageUrl: p.main_image_url || 'https://via.placeholder.com/800x600?text=No+Image',
+          imageUrl: p.main_image_url || 'https://placehold.co/800x600?text=No+Image',
           galleryImages: p.gallery_images,
           verified: p.verified,
           amenities: p.amenities,
@@ -75,7 +75,7 @@ export default function SearchPage() {
             name: p.landlord?.full_name || "Unknown Landlord",
             role: p.landlord?.role === 'landlord' ? 'Verified Landlord' : 'Partner',
             experience: 'New',
-            imageUrl: p.landlord?.avatar_url || 'https://via.placeholder.com/150'
+            imageUrl: p.landlord?.avatar_url || 'https://placehold.co/150'
           }
         }));
         setProperties([...mapped, ...INITIAL_PROPERTIES]);
