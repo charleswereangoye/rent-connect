@@ -362,7 +362,7 @@ export default function DashboardPage() {
           )}
 
           {role === "landlord" && isVerified && (
-            <div className="bg-primary/5 border border-primary/20 p-xl rounded-xl space-y-md text-center flex flex-col items-center justify-center order-2 h-full min-h-[300px]">
+            <div className="bg-primary/5 border border-primary/20 p-xl rounded-xl space-y-md text-center flex flex-col items-center justify-center order-2 py-2xl">
               <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-sm shadow-inner">
                 <span className="material-symbols-outlined text-[48px]">verified_user</span>
               </div>
