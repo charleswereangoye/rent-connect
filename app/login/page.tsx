@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -39,14 +40,13 @@ export default function LoginPage() {
       <main className="flex-grow flex flex-col md:flex-row w-full">
         {/* Left Side: Visual & Message */}
         <section className="hidden md:flex md:w-1/2 relative overflow-hidden bg-on-background">
-          <div
-            className="absolute inset-0 z-0 opacity-80"
-            style={{
-              backgroundImage:
-                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6wKSJqapo--AIcGL9w_FCeTt-36WpupwMv-2JRx4DWgRlwdcHhQRDmJZfS92QQSksYrofdKIn21nFMbw8UarMh2bMAJ5z-4bkQ7SQWyG_37uFbt1vu5-Y2j7-geGmcCubEr6u30yGiyh9CKJKuH0irk5V7aaRJvRUCNXfq2VeU9OZKoD4w-AG80F-EGzCSunSeAqb7Ml9SeDuUCmeGaVgOR8xBVQ3DZlQNRdhpqEzT_QjHRyBNYq0FYW2fAwX3soGVs5MvQk')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+          <Image
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6wKSJqapo--AIcGL9w_FCeTt-36WpupwMv-2JRx4DWgRlwdcHhQRDmJZfS92QQSksYrofdKIn21nFMbw8UarMh2bMAJ5z-4bkQ7SQWyG_37uFbt1vu5-Y2j7-geGmcCubEr6u30yGiyh9CKJKuH0irk5V7aaRJvRUCNXfq2VeU9OZKoD4w-AG80F-EGzCSunSeAqb7Ml9SeDuUCmeGaVgOR8xBVQ3DZlQNRdhpqEzT_QjHRyBNYq0FYW2fAwX3soGVs5MvQk"
+            alt="Login Background"
+            fill
+            priority
+            className="opacity-80"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
           />
           {/* Overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent z-10" />
